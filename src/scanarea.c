@@ -88,7 +88,17 @@ void makeMsg(HMSG hmsg, XMSG xmsg, s_message * msg, s_area * echo, int action)
     msg->destAddr.point = xmsg.dest.point;
     msg->attributes     = xmsg.attr & ~MSGLOCAL; /*  msg should not have MSGLOCAL bit set */
 
-    sc_time((union stamp_combo *)&(xmsg.date_written), (char *)msg->datetime);
+    if (*xmsg.__ftsc_date == '\0')
+    {
+        /* __ftsc_date is empty, so use xmsg.date_written */
+        sc_time((union stamp_combo *)&(xmsg.date_written), (char *)msg->datetime);
+    }
+    else
+    {
+        /* use xmsg.__ftsc_date */
+        strcpy((char*)msg->datetime, (char*)xmsg.__ftsc_date);
+    }
+
     xstrcat(&msg->toUserName, (char *)xmsg.to);
     xstrcat(&msg->fromUserName, (char *)xmsg.from);
     xstrcat(&msg->subjectLine, (char *)xmsg.subj);
