@@ -498,7 +498,7 @@ flag_t parse_ftsc_date(struct tm * ptm, char * pdatestr)
     const char * pday, * pmon, * pyear, * phour, * pminute, * psecond;
     flag_t rval;
     char buf[22];
-    int fixseadog = 0;
+    /* int fixseadog = 0; */
     struct tm * pnow;
     time_t t_now;
 
@@ -742,8 +742,7 @@ int readMsgFromPkt(FILE * pkt, s_pktHeader * header, s_message ** message)
 
     if(len == 1)
     {
-        w_log(LL_ERR, "wrong msg header: toUserName is empty");
-        badmsg++;
+        w_log(LL_WARN, "Msg header: toUserName is empty");
     }
     else if(len > XMSG_TO_SIZE)
     {
@@ -771,8 +770,7 @@ int readMsgFromPkt(FILE * pkt, s_pktHeader * header, s_message ** message)
 
     if(len == 1)
     {
-        w_log(LL_ERR, "wrong msg header: fromUserName is empty");
-        badmsg++;
+        w_log(LL_WARN, "Msg header: fromUserName is empty");
     }
     else if(len > XMSG_FROM_SIZE)
     {
